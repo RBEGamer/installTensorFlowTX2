@@ -1,4 +1,13 @@
 #!/bin/bash
+
+
+#FIRST CREATE A SWAP FILE OF 8 GB
+fallocate -l 8G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+swapon -s
+
 # NVIDIA Jetson TX1
 # TensorFlow Installation
 # Export TensorFlow GPU environment variables
@@ -6,7 +15,7 @@
 export TF_NEED_CUDA=1
 export TF_CUDA_VERSION=8.0
 export CUDA_TOOLKIT_PATH=/usr/local/cuda
-export TF_CUDNN_VERSION=5.1.10
+export TF_CUDNN_VERSION=6.0.21
 export CUDNN_INSTALL_PATH=/usr/lib/aarch64-linux-gnu/
 export TF_CUDA_COMPUTE_CAPABILITIES=6.2
 
@@ -14,3 +23,7 @@ export TF_CUDA_COMPUTE_CAPABILITIES=6.2
 cd $HOME/tensorflow
 bazel build -c opt --local_resources 3072,4.0,1.0 --verbose_failures --config=cuda //tensorflow/tools/pip_package:build_pip_package
 
+#Remove Swapfile
+swapoff /swapfile
+swapoff -a -v
+rm /swapfile

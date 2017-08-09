@@ -1,4 +1,13 @@
 #!/bin/bash
+
+
+#FIRST CREATE A SWAP FILE OF 8 GB
+fallocate -l 8G swapfile
+chmod 600 swapfile
+mkswap swapfile
+swapon swapfile
+swapon -s
+
 # NVIDIA Jetson TX1
 # TensorFlow Installation
 # Export TensorFlow GPU environment variables
